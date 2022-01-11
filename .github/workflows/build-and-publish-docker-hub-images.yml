@@ -45,3 +45,25 @@ jobs:
           push: true
           tags: ${{ steps.meta_std.outputs.tags }}
           labels: ${{ steps.meta_std.outputs.labels }}
+
+      - name: Extract metadata (tags, labels) for custom image
+        id: meta_custom
+        uses: docker/metadata-action@v3
+        with:
+          images: computablefacts/superset-for-swarm-custom
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=pep440,pattern={{version}}
+            type=pep440,pattern={{major}}.{{minor}}
+            type=sha
+            type=sha,format=long
+
+      - name: Build and push custom image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./custom.Dockerfile
+          push: true
+          tags: ${{ steps.meta_custom.outputs.tags }}
+          labels: ${{ steps.meta_custom.outputs.labels }}
