@@ -1,0 +1,49 @@
+name: Build and publish Docker Hub images
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'main'
+
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for standard image
+        id: meta_std
+        uses: docker/metadata-action@v3
+        with:
+          images: computablefacts/superset-for-swarm
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=pep440,pattern={{version}}
+            type=pep440,pattern={{major}}.{{minor}}
+            type=sha
+            type=sha,prefix={{branch}}-
+            type=sha,format=long
+            type=sha,format=long,prefix={{branch}}-
+
+      - name: Build and push standard image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta_std.outputs.tags }}
+          labels: ${{ steps.meta_std.outputs.labels }}
