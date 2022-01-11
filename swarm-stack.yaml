@@ -1,0 +1,131 @@
+#
+# Inspire by https://github.com/apache/superset/blob/1.3.0/docker-compose-non-dev.yml
+#
+x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.0
+x-superset-depends-on: &superset-depends-on
+  - db
+  - redis
+x-superset-env: &superset-env
+  - COMPOSE_PROJECT_NAME=superset
+  # database configurations
+  - DATABASE_DIALECT=postgresql
+  - DATABASE_USER=superset
+  - DATABASE_PASSWORD=change_this
+  - DATABASE_HOST=db
+  - DATABASE_PORT=5432
+  - DATABASE_DB=superset
+
+  - PYTHONPATH=/app/pythonpath
+  - REDIS_HOST=redis
+  - REDIS_PORT=6379
+  - FLASK_ENV=production
+  - SUPERSET_ENV=production
+  - SUPERSET_LOAD_EXAMPLES=no
+  - CYPRESS_CONFIG=false
+  - SUPERSET_PORT=8088
+
+
+version: "3.7"
+
+services:
+  redis:
+    image: redis:latest
+    volumes:
+      - redis:/data
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+        reservations:
+          memory: 16M
+
+  db:
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=superset
+      - POSTGRES_USER=superset
+      - POSTGRES_PASSWORD=change_this
+    volumes:
+      - db_home:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  superset:
+    image: *superset-image
+    environment: *superset-env
+    command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
+    user: "root"
+    ports:
+      - target: 8088
+        published: 8088
+        protocol: tcp
+# Uncomment below to test locally on http://localhost:8088/
+#        mode: host
+    depends_on: *superset-depends-on
+    volumes:
+      - superset_home:/app/superset_home
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+        reservations:
+          memory: 512M
+
+  superset-init:
+    image: *superset-image
+    environment: *superset-env
+    command: ["/app/docker/docker-init.sh"]
+    healthcheck:
+      disable: true
+    depends_on: *superset-depends-on
+    user: "root"
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  superset-worker:
+    image: *superset-image
+    environment: *superset-env
+    command: ["/app/docker/docker-bootstrap.sh", "worker"]
+    healthcheck:
+      disable: true
+    depends_on: *superset-depends-on
+    user: "root"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  superset-worker-beat:
+    image: *superset-image
+    environment: *superset-env
+    command: ["/app/docker/docker-bootstrap.sh", "beat"]
+    healthcheck:
+      disable: true
+    depends_on: *superset-depends-on
+    user: "root"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+volumes:
+  superset_home:
+    external: false
+  db_home:
+    external: false
+  redis:
+    external: false

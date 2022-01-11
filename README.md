@@ -12,13 +12,44 @@ I want:
 
 ## Usage
 
-### Swarm stack with the standard image
+Copy the `swarm-stack.yaml` on your Docker Swarm manager and launch:
 
-TODO
+```bash
+$ docker stack deploy --compose-file swarm-stack.yaml my-superset-stack
+```
 
-### Swarm stack with the custom image
+You can choose the superset image by changing:
+```yaml
+x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.0
+```
+with another version
+```yaml
+x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.2
+```
+or with your custom image
+```yaml
+x-superset-image: &superset-image my-user/my-custom-image:latest
+```
 
-TODO
+You can test the Swarm stack locally. Clone this repo first and change the `ports` setting 
+in the `swarm-stack.yaml` file like this (uncomment the `mode` key):
+```yaml
+    ports:
+      - target: 8088
+        published: 8088
+        protocol: tcp
+# Uncomment below to test locally on http://localhost:8088/
+        mode: host
+```
+Start the stack with:
+```shell
+# Turn your local Docker on a Swarm
+$ docker swarm init
+# Launch the stack
+$ docker stack deploy --compose-file swarm-stack.yaml my-local-superset-stack
+```
+
+Superset should be accessible on http://localhost:8088/
 
 ## More details
 
