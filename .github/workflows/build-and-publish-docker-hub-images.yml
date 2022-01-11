@@ -35,9 +35,7 @@ jobs:
             type=pep440,pattern={{version}}
             type=pep440,pattern={{major}}.{{minor}}
             type=sha
-            type=sha,prefix={{branch}}-
             type=sha,format=long
-            type=sha,format=long,prefix={{branch}}-
 
       - name: Build and push standard image
         uses: docker/build-push-action@v2
