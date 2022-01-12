@@ -1,7 +1,7 @@
 #
 # Inspire by https://github.com/apache/superset/blob/1.3.0/docker-compose-non-dev.yml
 #
-x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.0
+x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.1
 x-superset-depends-on: &superset-depends-on
   - db
   - redis

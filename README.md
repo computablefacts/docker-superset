@@ -76,13 +76,13 @@ Checkout the [apache/superset repo](https://github.com/apache/superset) on the n
 
 ```shell
 $ git clone git@github.com:apache/superset.git
-$ git checkout 1.3.0
+$ git checkout 1.3.1
 ```
 
-Copy the bash scripts from superset/docker into this repo /docker (6 bash scripts).
+Copy the bash scripts from `superset/docker` into this repo `/docker` (6 bash scripts).
 
-Copy the config file from superset/docker/pythonpath_dev/superset_config.py into this 
-repo /docker/pythonpath/superset_config.py.
+Copy the config file from `superset/docker/pythonpath_dev/superset_config.py` into this 
+repo `/docker/pythonpath/superset_config.py`.
 
 Modify the superset_config.py to use Redis as the results backend.
 
@@ -94,13 +94,35 @@ from cachelib.redis import RedisCache
 RESULTS_BACKEND = RedisCache(host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
 ##### End of change
 ```
+
 #### Change version tag
 
 On Dockerfile
+```yaml
+FROM apache/superset:1.3.1
+```
+
 On custom.dockerfile
+```yaml
+FROM computablefacts/superset-for-swarm:1.3.1
+```
+
 On Swarm stack
+```yaml
+x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.1
+```
 
 #### Commit, tag and push
 
-TODO
+Commit your changes and push your commit.
+
+Add a git tag with the new superset version
+```shell
+$ git tag -a 1.3.1 -m "From superset 1.3.1"
+```
+
+Push your tag:
+```shell
+$ git push origin 1.3.1
+```
 

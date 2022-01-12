@@ -1,4 +1,4 @@
-FROM computablefacts/superset-for-swarm:1.3.0
+FROM computablefacts/superset-for-swarm:1.3.1
 
 # Copy requirements (database drivers)
 COPY custom/requirements-local.txt /app/docker/requirements-local.txt
