@@ -32,6 +32,7 @@ LANGUAGES = {
     #"sl": {"flag": "si", "name": "Slovenian"},
 }
 
+ENABLE_PROXY_FIX = True
 
 #---------------------------KEYCLOACK ----------------------------
 # See: https://github.com/apache/superset/discussions/13915
