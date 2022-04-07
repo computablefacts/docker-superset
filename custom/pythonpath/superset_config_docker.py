@@ -1,3 +1,20 @@
+import os
+from typing import Optional
+
+def get_env_variable(var_name: str, default: Optional[str] = None) -> str:
+    """Get the environment variable or raise exception."""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        if default is not None:
+            return default
+        else:
+            error_msg = "The environment variable {} was missing, abort...".format(
+                var_name
+            )
+            raise EnvironmentError(error_msg)
+
+
 # The allowed translation for you app
 LANGUAGES = {
     "en": {"flag": "us", "name": "English"},
@@ -14,3 +31,23 @@ LANGUAGES = {
     #"sk": {"flag": "sk", "name": "Slovak"},
     #"sl": {"flag": "si", "name": "Slovenian"},
 }
+
+
+#---------------------------KEYCLOACK ----------------------------
+from keycloak_security_manager  import  OIDCSecurityManager
+from flask_appbuilder.security.manager import AUTH_OID
+
+OIDC_ENABLE = get_env_variable("OIDC_ENABLE", 'False')
+
+if OIDC_ENABLE == 'True':
+    AUTH_TYPE = AUTH_OID
+    SECRET_KEY = get_env_variable("SECRET_KEY", 'ChangeThisKeyPlease')
+    OIDC_CLIENT_SECRETS = get_env_variable("OIDC_CLIENT_SECRETS", '/app/pythonpath/client_secret.json')
+    OIDC_ID_TOKEN_COOKIE_SECURE = False
+    OIDC_REQUIRE_VERIFIED_EMAIL = False
+    OIDC_OPENID_REALM = get_env_variable("OIDC_OPENID_REALM")
+    OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
+    CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
+    AUTH_USER_REGISTRATION = True
+    AUTH_USER_REGISTRATION_ROLE = get_env_variable("AUTH_USER_REGISTRATION_ROLE", 'Public')
+#--------------------------------------------------------------
