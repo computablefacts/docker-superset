@@ -34,6 +34,9 @@ LANGUAGES = {
 
 
 #---------------------------KEYCLOACK ----------------------------
+# See: https://github.com/apache/superset/discussions/13915
+# See: https://stackoverflow.com/questions/54010314/using-keycloakopenid-connect-with-apache-superset/54024394#54024394
+
 from keycloak_security_manager  import  OIDCSecurityManager
 from flask_appbuilder.security.manager import AUTH_OID
 
