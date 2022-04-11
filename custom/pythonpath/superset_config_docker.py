@@ -34,6 +34,8 @@ LANGUAGES = {
 
 ENABLE_PROXY_FIX = True
 
+SECRET_KEY = get_env_variable("SECRET_KEY", 'ChangeThisKeyPlease')
+
 #---------------------------KEYCLOACK ----------------------------
 # See: https://github.com/apache/superset/discussions/13915
 # See: https://stackoverflow.com/questions/54010314/using-keycloakopenid-connect-with-apache-superset/54024394#54024394
@@ -45,13 +47,14 @@ OIDC_ENABLE = get_env_variable("OIDC_ENABLE", 'False')
 
 if OIDC_ENABLE == 'True':
     AUTH_TYPE = AUTH_OID
-    SECRET_KEY = get_env_variable("SECRET_KEY", 'ChangeThisKeyPlease')
+    CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
+    # See: https://flask-oidc.readthedocs.io/en/latest/#flask_oidc.OpenIDConnect.require_login
     OIDC_CLIENT_SECRETS = get_env_variable("OIDC_CLIENT_SECRETS", '/app/pythonpath/client_secret.json')
-    OIDC_ID_TOKEN_COOKIE_SECURE = False
+    OIDC_COOKIE_SECURE = True
     OIDC_REQUIRE_VERIFIED_EMAIL = False
     OIDC_OPENID_REALM = get_env_variable("OIDC_OPENID_REALM")
     OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
-    CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
-    AUTH_USER_REGISTRATION = True
-    AUTH_USER_REGISTRATION_ROLE = get_env_variable("AUTH_USER_REGISTRATION_ROLE", 'Public')
+
+#    AUTH_USER_REGISTRATION = True
+#    AUTH_USER_REGISTRATION_ROLE = get_env_variable("AUTH_USER_REGISTRATION_ROLE", 'Public')
 #--------------------------------------------------------------
