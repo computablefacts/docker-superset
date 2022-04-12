@@ -54,7 +54,4 @@ if OIDC_ENABLE == 'True':
     OIDC_REQUIRE_VERIFIED_EMAIL = False
     OIDC_OPENID_REALM = get_env_variable("OIDC_OPENID_REALM")
     OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
-
-#    AUTH_USER_REGISTRATION = True
-#    AUTH_USER_REGISTRATION_ROLE = get_env_variable("AUTH_USER_REGISTRATION_ROLE", 'Public')
 #--------------------------------------------------------------
