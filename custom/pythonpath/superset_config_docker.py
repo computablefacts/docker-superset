@@ -55,3 +55,11 @@ if OIDC_ENABLE == 'True':
     OIDC_OPENID_REALM = get_env_variable("OIDC_OPENID_REALM")
     OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
 #--------------------------------------------------------------
+
+APP_NAME = get_env_variable("APP_NAME", 'DataViz')
+APP_ICON = get_env_variable("APP_ICON", '/static/assets/images/cf-logo.png')
+APP_ICON_WIDTH = get_env_variable("APP_ICON_WIDTH", 26)
+LOGO_TOOLTIP = get_env_variable("LOGO_TOOLTIP", 'DataViz by ComputableFacts')
+LOGO_RIGHT_TEXT = get_env_variable("LOGO_RIGHT_TEXT", 'DataViz')
+
+FAVICONS = [{"href": get_env_variable("APP_FAVICON", '/static/assets/images/cf-logo.png')}]
