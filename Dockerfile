@@ -12,7 +12,3 @@ COPY docker/pythonpath/superset_config.py /app/pythonpath/superset_config.py
 
 # Switching back to using the `superset` user
 USER superset
-
-
-
-
