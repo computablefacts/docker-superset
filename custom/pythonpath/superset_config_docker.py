@@ -99,7 +99,7 @@ if EMAIL_NOTIFICATIONS == 'True':
     ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 
 
-    WEBDRIVER_BASEURL_USER_FRIENDLY = "http://localhost:8088/"
+    WEBDRIVER_BASEURL_USER_FRIENDLY = get_env_variable("WEBDRIVER_BASEURL_USER_FRIENDLY", "http://localhost:8088/")
 
     SMTP_HOST = get_env_variable("SMTP_HOST", 'smtp.sendgrid.net')
     SMTP_STARTTLS = True
