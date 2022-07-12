@@ -112,4 +112,17 @@ if EMAIL_NOTIFICATIONS == 'True':
 # Deprecated ENABLE_SCHEDULED_EMAIL_REPORTS = True (WARNING:root:ENABLE_SCHEDULED_EMAIL_REPORTS is deprecated and will be removed in version 2.0.0)
 # Deprecated in 1.2.0: ENABLE_ALERTS, SCHEDULED_EMAIL_DEBUG_MODE, EMAIL_REPORTS_CRON_RESOLUTION, EMAIL_ASYNC_TIME_LIMIT_SEC, EMAIL_REPORT_BCC_ADDRESS, EMAIL_REPORTS_USER
 
+# Time before selenium times out after trying to locate an element on the page and wait
+# for that element to load for a screenshot.
+SCREENSHOT_LOCATE_WAIT = 33
+# Time before selenium times out after waiting for all DOM class elements named
+# "loading" are gone.
+SCREENSHOT_LOAD_WAIT = 187
+# Selenium destroy retries
+SCREENSHOT_SELENIUM_RETRIES = 5
+# Give selenium an headstart, in seconds
+SCREENSHOT_SELENIUM_HEADSTART = 3
+# Wait for the chart animation, in seconds
+SCREENSHOT_SELENIUM_ANIMATION_WAIT = 5
+
 #--------------------------------------------------------------
