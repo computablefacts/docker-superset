@@ -1,4 +1,4 @@
-FROM computablefacts/superset-for-swarm:1.5.2
+FROM computablefacts/superset-for-swarm:1.5.1
 
 # Switching to root to install the required packages
 USER root
