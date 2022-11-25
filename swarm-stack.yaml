@@ -24,6 +24,11 @@ x-superset-env: &superset-env
   - CYPRESS_CONFIG=false
   - SUPERSET_PORT=8088
 
+  - OIDC_ENABLE=False
+  - OIDC_OPENID_REALM=my_customer
+
+  - EMAIL_REPORTS_SUBJECT_PREFIX=[DataViz for my customer]
+
 
 version: "3.7"
 
