@@ -28,7 +28,7 @@ x-superset-image: &superset-image computablefacts/superset-for-swarm:1.3.2
 ```
 or with our custom image
 ```yaml
-x-superset-image: &superset-image computablefacts/superset-for-swarm-custom:latest
+x-superset-image: &superset-image computablefacts/superset-for-swarm-custom:main
 ```
 or with your custom image
 ```yaml
