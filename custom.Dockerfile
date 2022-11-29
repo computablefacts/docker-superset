@@ -17,6 +17,19 @@ RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRI
 
 RUN pip install --no-cache gevent psycopg2 redis
 
+# Patch for changing report email title
+# See: https://github.com/apache/superset/blob/master/superset/reports/commands/execute.py#L363
+RUN sed -i 's/f"{self._report_schedule.name}: "//' /app/superset/reports/commands/execute.py
+
+# Patch for removing link to Superset from report email
+# See: https://github.com/apache/superset/blob/master/superset/reports/notifications/email.py#L165
+RUN sed -i 's#<b><a href="{url}">{call_to_action}</a></b><p></p>#<p></p>#' /app/superset/reports/notifications/email.py
+
+# Patch a migration from 1.4 to 1.5
+# See: https://github.com/apache/superset/issues/20685
+# The issue is solved but not yet included in version 1.5.2
+RUN sed -i 's/except sa.exc.OperationalError:/except (sa.exc.OperationalError, sa.exc.DatabaseError):/' /app/superset/migrations/versions/b92d69a6643c_rename_csv_to_file.py
+
 # Switching back to using the `superset` user
 USER superset
 
