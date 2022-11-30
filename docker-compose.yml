@@ -1,0 +1,133 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+x-superset-depends-on: &superset-depends-on
+  - dummy-build-standard
+  - db
+  - redis
+x-superset-env: &superset-env
+  - COMPOSE_PROJECT_NAME=superset
+  # database configurations
+  - DATABASE_DIALECT=postgresql
+  - DATABASE_USER=superset
+  - DATABASE_PASSWORD=change_this
+  - DATABASE_HOST=db
+  - DATABASE_PORT=5432
+  - DATABASE_DB=superset
+
+  - PYTHONPATH=/app/pythonpath
+  - REDIS_HOST=redis
+  - REDIS_PORT=6379
+  - FLASK_ENV=production
+  - SUPERSET_ENV=production
+  - SUPERSET_LOAD_EXAMPLES=no
+  - CYPRESS_CONFIG=false
+  - SUPERSET_PORT=8088
+
+  - OIDC_ENABLE=False
+  - OIDC_OPENID_REALM=my_customer
+
+  - EMAIL_REPORTS_SUBJECT_PREFIX=[DataViz for my customer]
+
+
+version: "3.7"
+services:
+  redis:
+    image: redis:latest
+    container_name: superset_cache
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+
+  db:
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=superset
+      - POSTGRES_USER=superset
+      - POSTGRES_PASSWORD=change_this
+    container_name: superset_db
+    restart: unless-stopped
+    volumes:
+      - db_home:/var/lib/postgresql/data
+
+  dummy-build-standard:
+    environment: *superset-env
+    image: computablefacts/superset-for-swarm:1.5.2
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+
+  superset:
+    environment: *superset-env
+    build:
+      dockerfile: ./custom.Dockerfile
+      context: .
+    container_name: superset_app
+    command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
+    user: "root"
+    restart: unless-stopped
+    ports:
+      - 8088:8088
+    depends_on: *superset-depends-on
+    volumes:
+      - superset_home:/app/superset_home
+
+  superset-init:
+    environment: *superset-env
+    build:
+      dockerfile: ./custom.Dockerfile
+      context: .
+    container_name: superset_init
+    command: ["/app/docker/docker-init.sh"]
+    restart: on-failure
+    depends_on: *superset-depends-on
+    user: "root"
+    healthcheck:
+      disable: true
+
+  superset-worker:
+    environment: *superset-env
+    build:
+      dockerfile: ./custom.Dockerfile
+      context: .
+    container_name: superset_worker
+    command: ["/app/docker/docker-bootstrap.sh", "worker"]
+    restart: unless-stopped
+    depends_on: *superset-depends-on
+    user: "root"
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping -A superset.tasks.celery_app:app -d celery@$$HOSTNAME"]
+
+  superset-worker-beat:
+    environment: *superset-env
+    build:
+      dockerfile: ./custom.Dockerfile
+      context: .
+    container_name: superset_worker_beat
+    command: ["/app/docker/docker-bootstrap.sh", "beat"]
+    restart: unless-stopped
+    depends_on: *superset-depends-on
+    user: "root"
+    healthcheck:
+      disable: true
+
+volumes:
+  superset_home:
+    external: false
+  db_home:
+    external: false
+  redis:
+    external: false
