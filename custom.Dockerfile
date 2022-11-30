@@ -19,7 +19,9 @@ RUN pip install --no-cache gevent psycopg2 redis
 
 # Patch for changing report email title
 # See: https://github.com/apache/superset/blob/master/superset/reports/commands/execute.py#L363
-RUN sed -i 's/f"{self._report_schedule.name}: "//' /app/superset/reports/commands/execute.py
+RUN sed -i 's/f"{self._report_schedule.name}: "/f"{self._report_schedule.name}"/' /app/superset/reports/commands/execute.py
+RUN sed -i 's/f"{self._report_schedule.chart.slice_name}"//' /app/superset/reports/commands/execute.py
+RUN sed -i 's/f"{self._report_schedule.dashboard.dashboard_title}"//' /app/superset/reports/commands/execute.py
 
 # Patch for removing link to Superset from report email
 # See: https://github.com/apache/superset/blob/master/superset/reports/notifications/email.py#L165
