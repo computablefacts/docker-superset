@@ -114,15 +114,15 @@ if EMAIL_NOTIFICATIONS == 'True':
 
 # Time before selenium times out after trying to locate an element on the page and wait
 # for that element to load for a screenshot.
-SCREENSHOT_LOCATE_WAIT = 33
+SCREENSHOT_LOCATE_WAIT = get_env_variable("SCREENSHOT_LOCATE_WAIT", 10)
 # Time before selenium times out after waiting for all DOM class elements named
 # "loading" are gone.
-SCREENSHOT_LOAD_WAIT = 187
+SCREENSHOT_LOAD_WAIT = get_env_variable("SCREENSHOT_LOAD_WAIT", 60)
 # Selenium destroy retries
-SCREENSHOT_SELENIUM_RETRIES = 5
+SCREENSHOT_SELENIUM_RETRIES = get_env_variable("SCREENSHOT_SELENIUM_RETRIES", 5)
 # Give selenium an headstart, in seconds
-SCREENSHOT_SELENIUM_HEADSTART = 3
+SCREENSHOT_SELENIUM_HEADSTART = get_env_variable("SCREENSHOT_SELENIUM_HEADSTART", 3)
 # Wait for the chart animation, in seconds
-SCREENSHOT_SELENIUM_ANIMATION_WAIT = 5
+SCREENSHOT_SELENIUM_ANIMATION_WAIT = get_env_variable("SCREENSHOT_SELENIUM_ANIMATION_WAIT", 5)
 
 #--------------------------------------------------------------
