@@ -38,7 +38,7 @@ fi
 
 if [[ "${1}" == "worker" ]]; then
   echo "Starting Celery worker..."
-  celery --app=superset.tasks.celery_app:app worker -Ofair -l INFO
+  celery --app=superset.tasks.celery_app:app worker -Ofair -l "${CELERY_WORKER_LOG_LEVEL:-INFO}"
 elif [[ "${1}" == "beat" ]]; then
   echo "Starting Celery beat..."
   celery --app=superset.tasks.celery_app:app beat --pidfile /tmp/celerybeat.pid -l INFO -s "${SUPERSET_HOME}"/celerybeat-schedule
