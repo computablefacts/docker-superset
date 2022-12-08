@@ -17,7 +17,8 @@ RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRI
 
 RUN pip install --no-cache gevent psycopg2 redis watchdog
 
-COPY docker/docker-bootstrap.sh /app/docker/docker-bootstrap.sh
+COPY custom/docker-bootstrap.sh /app/docker/docker-bootstrap.sh
+RUN chmod +x /app/docker/*.sh
 
 # Patch for changing report email title
 # See: https://github.com/apache/superset/blob/master/superset/reports/commands/execute.py#L363
