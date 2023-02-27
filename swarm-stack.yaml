@@ -93,7 +93,7 @@ services:
         condition: on-failure
       resources:
         limits:
-          memory: 256M
+          memory: 512M
         reservations:
           memory: 64M
 
