@@ -83,8 +83,9 @@ def auth_driver(driver, user):
 
     return driver
 
-# TODO: check if it still works when OIDC is disable
-WEBDRIVER_AUTH_FUNC = auth_driver
+# Change the driver only for OIDC
+if OIDC_ENABLE == 'True':
+    WEBDRIVER_AUTH_FUNC = auth_driver
 #--------------------------------------------------------------
 # Alert & Report
 # Send email
