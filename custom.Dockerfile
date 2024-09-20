@@ -7,7 +7,7 @@ USER root
 # See: https://github.com/apache/superset/issues/7466#issuecomment-490148436
 # See: https://superset.apache.org/docs/installation/alerts-reports/#using-firefox
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y firefox-esr
+    apt-get install --no-install-recommends -y firefox-esr wget
 
 ENV GECKODRIVER_VERSION=0.29.0
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
