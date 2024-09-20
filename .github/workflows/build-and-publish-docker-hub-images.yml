@@ -26,7 +26,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for standard image
         id: meta_std
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: computablefacts/superset-for-swarm
           tags: |
@@ -34,6 +34,7 @@ jobs:
             type=ref,event=pr
             type=pep440,pattern={{version}}
             type=pep440,pattern={{major}}.{{minor}}
+            type=pep440,pattern={{major}}.{{minor}}.{{patch}}
             type=sha
             type=sha,format=long
 
@@ -48,7 +49,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for custom image
         id: meta_custom
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
           images: computablefacts/superset-for-swarm-custom
           tags: |
@@ -56,6 +57,7 @@ jobs:
             type=ref,event=pr
             type=pep440,pattern={{version}}
             type=pep440,pattern={{major}}.{{minor}}
+            type=pep440,pattern={{major}}.{{minor}}.{{patch}}
             type=sha
             type=sha,format=long
 
