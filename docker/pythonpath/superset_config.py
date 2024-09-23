@@ -33,10 +33,13 @@ logger = logging.getLogger()
 
 def get_env_variable(var_name: str, default: Optional[str] = None) -> str:
     """Get the environment variable or raise exception."""
+    logger.info(f"get_env_variable: read {var_name}")
     try:
+        logger.info(f"get_env_variable: value {os.environ[var_name]}")
         return os.environ[var_name]
     except KeyError:
         if default is not None:
+            logger.info(f"get_env_variable: value {default}")
             return default
         else:
             error_msg = "The environment variable {} was missing, abort...".format(
