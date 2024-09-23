@@ -27,6 +27,7 @@ from celery.schedules import crontab
 #from flask_caching.backends.filesystemcache import FileSystemCache
 
 logger = logging.getLogger()
+logger.info("Start superset_config.py")
 
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
 DATABASE_USER = os.getenv("DATABASE_USER")
@@ -122,3 +123,5 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+logger.info("End superset_config.py")

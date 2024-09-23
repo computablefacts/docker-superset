@@ -1,4 +1,8 @@
+import logging
 import os
+
+logger = logging.getLogger()
+logger.info("Start superset_config_docker.py")
 
 # The allowed translation for you app
 LANGUAGES = {
@@ -112,3 +116,5 @@ SCREENSHOT_SELENIUM_HEADSTART = int(os.getenv("SCREENSHOT_SELENIUM_HEADSTART", 3
 SCREENSHOT_SELENIUM_ANIMATION_WAIT = int(os.getenv("SCREENSHOT_SELENIUM_ANIMATION_WAIT", 5))
 
 #--------------------------------------------------------------
+
+logger.info("End superset_config_docker.py")
