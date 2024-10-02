@@ -1,2 +1,2 @@
 mysql-connector-python
-flask-oidc==1.3.0
+flask-oidc
