@@ -29,6 +29,8 @@ from celery.schedules import crontab
 logger = logging.getLogger()
 logger.info("Start superset_config.py")
 
+SECRET_KEY = os.getenv("SECRET_KEY", 'ChangeThisKeyPlease')
+
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
 DATABASE_USER = os.getenv("DATABASE_USER")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")

@@ -23,8 +23,6 @@ LANGUAGES = {
 
 ENABLE_PROXY_FIX = True
 
-SECRET_KEY = os.getenv("SECRET_KEY", 'ChangeThisKeyPlease')
-
 #---------------------------KEYCLOACK ----------------------------
 # See: https://github.com/apache/superset/discussions/13915
 # See: https://stackoverflow.com/questions/54010314/using-keycloakopenid-connect-with-apache-superset/54024394#54024394
