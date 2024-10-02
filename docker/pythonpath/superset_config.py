@@ -122,7 +122,6 @@ try:
         f"Loaded your Docker configuration at " f"[{superset_config_docker.__file__}]"
     )
 except Exception:
-    logger.exception("Using default Docker config...")
-    raise
+    logger.exception("superset_config_docker.py not loaded. Using default Docker config...")
 
 logger.info("End superset_config.py")
