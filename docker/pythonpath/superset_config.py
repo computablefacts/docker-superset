@@ -121,7 +121,8 @@ try:
     logger.info(
         f"Loaded your Docker configuration at " f"[{superset_config_docker.__file__}]"
     )
-except ImportError:
-    logger.info("Using default Docker config...")
+except Exception:
+    logger.exception("Using default Docker config...")
+    raise
 
 logger.info("End superset_config.py")
