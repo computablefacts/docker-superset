@@ -38,7 +38,6 @@ if OIDC_ENABLE == 'True':
     # See: https://flask-oidc.readthedocs.io/en/latest/#flask_oidc.OpenIDConnect.require_login
     OIDC_CLIENT_SECRETS = os.getenv("OIDC_CLIENT_SECRETS", '/app/pythonpath/client_secret.json')
     OIDC_COOKIE_SECURE = True
-    OIDC_REQUIRE_VERIFIED_EMAIL = False
     OIDC_OPENID_REALM = os.getenv("OIDC_OPENID_REALM")
     OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
 #--------------------------------------------------------------
