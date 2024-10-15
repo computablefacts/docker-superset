@@ -41,6 +41,13 @@ if OIDC_ENABLE == 'True':
     OIDC_OPENID_REALM = os.getenv("OIDC_OPENID_REALM")
     OIDC_INTROSPECTION_AUTH_METHOD = 'client_secret_post'
 #--------------------------------------------------------------
+# Enable REST API for user CRUD
+# See: https://superset.apache.org/docs/security/#rest-api-for-user--role-management
+FAB_ADD_SECURITY_API = os.getenv("FAB_ADD_SECURITY_API", 'False')
+
+if FAB_ADD_SECURITY_API == 'True':
+    FAB_ADD_SECURITY_API = True
+#--------------------------------------------------------------
 
 APP_NAME = os.getenv("APP_NAME", 'DataViz')
 APP_ICON = os.getenv("APP_ICON", '/static/assets/images/cf-logo.png')
