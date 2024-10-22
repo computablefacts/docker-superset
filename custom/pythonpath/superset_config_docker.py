@@ -48,6 +48,21 @@ FAB_ADD_SECURITY_API = os.getenv("FAB_ADD_SECURITY_API", 'False')
 if FAB_ADD_SECURITY_API == 'True':
     FAB_ADD_SECURITY_API = True
 #--------------------------------------------------------------
+# Hack to have user's email in jinja template
+# See: https://github.com/apache/superset/issues/28648
+from flask import g
+from superset.models.core import User
+
+def get_current_user_email():
+    user = g.user if hasattr(g, "user") and g.user else None
+    if user and not user.is_anonymous:
+        return user.email
+    return None
+
+JINJA_CONTEXT_ADDONS = {
+    'get_current_user_email': get_current_user_email,
+}
+#--------------------------------------------------------------
 
 APP_NAME = os.getenv("APP_NAME", 'DataViz')
 APP_ICON = os.getenv("APP_ICON", '/static/assets/images/cf-logo.png')
