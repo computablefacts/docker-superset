@@ -51,7 +51,6 @@ if FAB_ADD_SECURITY_API == 'True':
 # Hack to have user's email in jinja template
 # See: https://github.com/apache/superset/issues/28648
 from flask import g
-from superset.models.core import User
 
 def get_current_user_email():
     user = g.user if hasattr(g, "user") and g.user else None
